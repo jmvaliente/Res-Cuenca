@@ -16,7 +16,7 @@ export default function Navigation() {
     return (
         <NavigationContainer>
             <Tab.Navigator
-                initialRouteName="restaurants"
+                initialRouteName="tapas"
                 tabBarOptions={{
                     inactiveTintColor: "#646464",
                     activeTintColor: "#00a680"
@@ -26,9 +26,9 @@ export default function Navigation() {
                 })}
             >
                 <Tab.Screen
-                    name="restaurants"
+                    name="tapas"
                     component={RestaurantsStack}
-                    options={{ title: "Restaurantes" }} />
+                    options={{ title: "Tapas" }} />
                 <Tab.Screen
                     name="favorites"
                     component={FavoritesStack}
@@ -55,7 +55,7 @@ function screenOptions(route, color) {
     let iconName;
 
     switch (route.name) {
-        case "restaurants":
+        case "tapas":
             iconName = "silverware-fork-knife"
             break;
         case "top-restaurant":
