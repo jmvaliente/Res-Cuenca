@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { Input, Button } from 'react-native-elements'
 import * as firebase from 'firebase'
+import reauthenticate from '../../utils/reauthenticate'
 
 function EditFormUser(props) {
 
     const { content, user, setShowModal, setReload } = props.props
 
     const [dataChange, setDataChange] = useState()
+    const [showPassword, setShowPassword] = useState(false)
     const [error, setError] = useState({
         error: false,
         msg: null
@@ -25,14 +27,32 @@ function EditFormUser(props) {
                 .then(() => {
                     setShowModal(false)
                     setReload(true)
-                    console.log(dataChange)
                 })
                 .catch(() => {
                     setShowModal(false)
                     setReload(true)
                 })
 
-        } else {
+        }
+        if (type === "password") {
+            reauthenticate(dataChange.actualPassword)
+                .then((el) => {
+                    firebase.auth()
+                        .currentUser
+                        .updatePassword(dataChange.password)
+                        .then(() => {
+                            setShowModal(false)
+                            firebase.auth().signOut()
+                        })
+                        .catch(() => {
+                            setShowModal(false)
+                        })
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+        else {
             (!dataChange)
                 ? setError({ error: true, msg: "El campo no puede estar vacio" })
                 : firebase.auth()
@@ -84,7 +104,7 @@ function EditFormUser(props) {
                         defaultValue={user.email || ""}
                         rightIcon={{
                             type: "material-community",
-                            name: "account-circle-outline",
+                            name: "at",
                             color: "#c2c2c2"
                         }}
                     />
@@ -102,19 +122,38 @@ function EditFormUser(props) {
             return (
                 <View style={style.view}>
                     <Input
-                        placeholder={"Editar Contraseña"}
+                        placeholder={"Contraseña Actual"}
                         containerStyle={style.input}
+                        onChange={(e) => onChange(e, "actualPassword")}
+                        errorMessage={error.msg}
+                        password={true}
+                        secureTextEntry={!showPassword}
                         rightIcon={{
                             type: "material-community",
-                            name: "account-circle-outline",
-                            color: "#c2c2c2"
+                            name: showPassword ? "eye-outline" : "eye-off-outline",
+                            color: "#c2c2c2",
+                            onPress: () => { setShowPassword(!showPassword) }
+                        }}
+                    />
+                    <Input
+                        placeholder={"Nueva Contraseña"}
+                        containerStyle={style.input}
+                        onChange={(e) => onChange(e, "password")}
+                        errorMessage={error.msg}
+                        password={true}
+                        secureTextEntry={!showPassword}
+                        rightIcon={{
+                            type: "material-community",
+                            name: showPassword ? "eye-outline" : "eye-off-outline",
+                            color: "#c2c2c2",
+                            onPress: () => { setShowPassword(!showPassword) }
                         }}
                     />
                     <Button
                         title="Editar"
                         containerStyle={style.btnContainer}
                         buttonStyle={style.btn}
-                        onPress={() => onSubmit()}
+                        onPress={() => onSubmit("password")}
                     />
                 </View>
             )
