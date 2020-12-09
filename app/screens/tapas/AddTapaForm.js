@@ -183,7 +183,8 @@ function UploadImage(props) {
             console.log("Hay que aceptar los permisos para poder cargar imagenes")
         } else {
             const result = await ImagePicker.launchCameraAsync({
-                aspect: [4, 3]
+                aspect: [4, 3],
+                quality: 0.3,
             }).then(result => {
                 setTapaFormState({ ...tapaFormState }, tapaFormState.image.push(result.uri))
             }
