@@ -2,6 +2,7 @@ import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 
 import Tapas from "../screens/tapas/Tapas";
+import AddTapas from "../screens/tapas/AddTapa"
 
 const Stack = createStackNavigator();
 
@@ -12,6 +13,11 @@ function TapasStack() {
                 name="tapas"
                 component={Tapas}
                 options={{ title: "Tapas" }}
+            />
+            <Stack.Screen
+                name="añadir_plato"
+                component={AddTapas}
+                options={{ title: "Añadir Plato" }}
             />
         </Stack.Navigator>
     )
