@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 
 import { Icon } from "react-native-elements";
 
-import RestaurantsStack from "./RestaurantsStack";
+import TapasStack from "./TapasStack";
 import FavoritesStack from "./FavoritesStack";
 import SearchStack from "./SearchStack";
 import AccountStack from "./AccountStack";
@@ -27,7 +27,7 @@ export default function Navigation() {
             >
                 <Tab.Screen
                     name="tapas"
-                    component={RestaurantsStack}
+                    component={TapasStack}
                     options={{ title: "Tapas" }} />
                 <Tab.Screen
                     name="favorites"
