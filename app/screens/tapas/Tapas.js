@@ -4,8 +4,8 @@ import { Icon } from 'react-native-elements'
 import { firebaseApp } from "../../utils/firebase"
 import firebase from "firebase/app"
 
-function Tapas() {
-
+function Tapas(props) {
+    const { navigation } = props
     const [user, setUser] = useState()
 
     useEffect(() => {
@@ -18,18 +18,20 @@ function Tapas() {
         <View style={styles.viewBody}>
             <Text>Tapas...</Text>
 
-            {user && addItem()}
+            {user && addItem(navigation)}
         </View>
     );
 }
 
-function addItem() {
+function addItem(navigation) {
+
     return <Icon
         type="material-community"
         name="plus"
         color="#00a680"
         reverse
         containerStyle={styles.btnContainer}
+        onPress={() => navigation.navigate("añadir_plato")}
     />
 }
 
