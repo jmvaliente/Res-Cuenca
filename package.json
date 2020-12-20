@@ -26,9 +26,12 @@
     "react-native-gesture-handler": "~1.6.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.3",
     "react-native-maps": "^0.27.1",
+    "react-native-open-maps": "^0.3.5",
     "react-native-reanimated": "~1.7.0",
     "react-native-safe-area-context": "~0.7.3",
     "react-native-screens": "~2.2.0",
+    "react-native-snap-carousel": "^3.9.1",
+    "react-native-video": "^5.1.0-alpha8",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
