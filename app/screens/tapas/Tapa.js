@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native'
 import { Rating } from 'react-native-elements'
 import Loading from '../../components/Loading'
 import Carousel from '../../components/Carousel'
 import Map from '../../components/Map'
+import ListComment from '../../components/tapas/ListComment'
+
+import { useFocusEffect } from "@react-navigation/native"
 
 import { firebaseApp } from "../../utils/firebase"
 import firebase from "firebase/app"
@@ -21,18 +24,21 @@ export default function Tapa(props) {
 
     navigation.setOptions({ title: name })
 
-    useEffect(() => {
-        setLoading(true)
-        db.collection("tapas")
-            .doc(id)
-            .get()
-            .then(res => {
-                const data = res.data()
-                data.id = res.id
-                setTapa(data)
-                setLoading(false)
-            })
-    }, [])
+    useFocusEffect(
+        useCallback(() => {
+            setLoading(true)
+            db.collection("tapas")
+                .doc(id)
+                .get()
+                .then(res => {
+                    const data = res.data()
+                    data.id = res.id
+                    setTapa(data)
+                    setLoading(false)
+                })
+        }, [])
+    )
+
 
     function TitleRestauran({ name, rating }) {
 
@@ -106,6 +112,7 @@ export default function Tapa(props) {
             <TitleRestauran name={tapa.name} rating={tapa.rating} />
             <Ingredients tapa={tapa} />
             <LocationTapa location={tapa.location} address={tapa.address} />
+            <ListComment navigation={navigation} idTapa={tapa.id} setRating={setRating} />
 
         </ScrollView>
     )
