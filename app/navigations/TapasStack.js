@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import Tapas from "../screens/tapas/Tapas";
 import AddTapas from "../screens/tapas/AddTapa"
 import Tapa from "../screens/tapas/Tapa"
+import AddComments from "../screens/tapas/AddComments"
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,11 @@ function TapasStack() {
             <Stack.Screen
                 name="plato"
                 component={Tapa}
+            />
+            <Stack.Screen
+                name="add_comments"
+                component={AddComments}
+                options={{ title: "Nuevo Comentario" }}
             />
         </Stack.Navigator>
     )
