@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native'
-import { Rating } from 'react-native-elements'
+import { Icon, Rating } from 'react-native-elements'
 import Loading from '../../components/Loading'
 import Carousel from '../../components/Carousel'
 import Map from '../../components/Map'
@@ -21,8 +21,17 @@ export default function Tapa(props) {
     const [tapa, setTapa] = useState(null)
     const [loading, setLoading] = useState(false)
     const [rating, setRating] = useState(0)
+    const [isFavorite, setFavorite] = useState({
+        favorite: false,
+        idFavorite: null
+    })
+    const [userLogged, setUserLogged] = useState(false)
 
     navigation.setOptions({ title: name })
+
+    firebase.auth().onAuthStateChanged((user) => {
+        user ? setUserLogged(true) : setUserLogged(false)
+    })
 
     useFocusEffect(
         useCallback(() => {
@@ -38,6 +47,24 @@ export default function Tapa(props) {
                 })
         }, [])
     )
+
+    useEffect(() => {
+        if (userLogged && tapa) {
+            db.collection("favorites")
+                .where("idTapa", "==", tapa.id)
+                .where("idUser", "==", firebase.auth().currentUser.uid)
+                .get()
+                .then((res) => {
+                    res.forEach((doc) => {
+                        if (res.docs.length === 1) {
+                            setFavorite({ idFavorite: doc.id, favorite: true })
+                        } else {
+                            setFavorite({ ...isFavorite, favorite: false })
+                        }
+                    })
+                })
+        }
+    }, [userLogged, tapa])
 
 
     function TitleRestauran({ name, rating }) {
@@ -100,10 +127,49 @@ export default function Tapa(props) {
         )
     }
 
+    function addFavorite(favorite) {
+        if (userLogged) {
+            if (!favorite) {
+                const payload = {
+                    idUser: firebase.auth().currentUser.uid,
+                    idTapa: tapa.id
+                }
+                db.collection("favorites")
+                    .add(payload)
+                    .then(() => {
+                        setFavorite({ ...isFavorite, favorite: true })
+                    })
+                    .catch(() => {
+                        setFavorite({ ...isFavorite, favorite: false })
+                    })
+            } else {
+
+                db.collection("favorites")
+                    .doc(isFavorite.idFavorite)
+                    .delete()
+                    .then(() => {
+                        setFavorite({ ...isFavorite, favorite: false })
+                    })
+            }
+        } else {
+            navigation.navigate("login")
+        }
+
+    }
+
     if (!tapa) return <Loading isVisible={loading} text="Cargando" />
     return (
         <ScrollView vertical style={styles.viewBody}>
-
+            <View style={styles.viewFavourite}>
+                <Icon
+                    type="material-community"
+                    name={isFavorite.favorite ? "heart" : "heart-outline"}
+                    onPress={() => addFavorite(isFavorite.favorite)}
+                    color="#000"
+                    size={30}
+                    underlayColor="transparent"
+                />
+            </View>
             <Carousel
                 arrayImages={tapa.images}
                 height={250}
@@ -153,5 +219,15 @@ const styles = StyleSheet.create({
     },
     ingredientContainer: {
         flexDirection: "row"
+    },
+    viewFavourite: {
+        position: "absolute",
+        top: 0,
+        right: 0,
+        zIndex: 2,
+        backgroundColor: "#fff",
+        borderBottomLeftRadius: 100,
+        padding: 5,
+        paddingLeft: 15
     }
 })

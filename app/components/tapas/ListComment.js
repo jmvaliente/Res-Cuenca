@@ -34,9 +34,12 @@ export default function ListComment(props) {
 
     return (
         <View>
-            {comments.map((el) =>
-                Comments(el)
+            {comments.map((el, index) =>
+                <View key={index} style={styles.viewCommentStyle}>
+                    {Comments(el)}
+                </View>
             )}
+
             {stateUserLogged
                 ? (<Button title="Añadir comentario"
                     buttonStyle={styles.btnAddComment}
@@ -66,9 +69,8 @@ function Comments(props) {
     const { avatarUser, title, rating, createAt, comment } = props
     const createCommentDate = new Date(createAt.seconds * 1000)
 
-    console.log(props)
     return (
-        <View style={styles.viewCommentStyle}>
+        <>
             <View style={styles.viewCommentAvatarStyle}>
                 <Avatar
                     size="large"
@@ -83,7 +85,7 @@ function Comments(props) {
                 <Rating imageSize={15} startingValue={rating} readonly />
                 <Text style={styles.reviewDateComments}>{createCommentDate.getDate()}/{createCommentDate.getMonth() + 1}/{createCommentDate.getFullYear()} {createCommentDate.getHours()}:{createCommentDate.getMinutes() < 10 ? "0" : ""}{createCommentDate.getMinutes()}</Text>
             </View>
-        </View>
+        </>
     )
 }
 
