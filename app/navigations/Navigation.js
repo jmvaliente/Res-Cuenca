@@ -8,7 +8,7 @@ import TapasStack from "./TapasStack";
 import FavoritesStack from "./FavoritesStack";
 import SearchStack from "./SearchStack";
 import AccountStack from "./AccountStack";
-import TopRestaurantsSlack from "./TopRestaurantsStack";
+import TopTapasSlack from "./TopTapasStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,8 +34,8 @@ export default function Navigation() {
                     component={FavoritesStack}
                     options={{ title: "Favoritos" }} />
                 <Tab.Screen
-                    name="top-restaurant"
-                    component={TopRestaurantsSlack}
+                    name="top-tapas"
+                    component={TopTapasSlack}
                     options={{ title: "Top 5" }} />
                 <Tab.Screen
                     name="search"
@@ -58,7 +58,7 @@ function screenOptions(route, color) {
         case "tapas":
             iconName = "silverware-fork-knife"
             break;
-        case "top-restaurant":
+        case "top-tapas":
             iconName = "star-outline"
             break;
         case "favorites":
