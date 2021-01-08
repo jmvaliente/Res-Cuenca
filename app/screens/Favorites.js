@@ -14,6 +14,7 @@ function Favorites(props) {
     const [tapas, setTapas] = useState(null)
     const [userLogged, setUserLogged] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [reload, setReload] = useState(false)
 
     firebase.auth().onAuthStateChanged((user) => {
         user ? setUserLogged(true) : setUserLogged(false)
@@ -44,8 +45,9 @@ function Favorites(props) {
                         })
                     })
             }
-        }, [userLogged])
+        }, [userLogged, reload])
     )
+
 
     function getTapasFavorites(idTapas) {
         const tapasFavorites = []
@@ -57,11 +59,51 @@ function Favorites(props) {
     }
 
     function tapaFavorite(props) {
-        const { item: { name, images } } = props
-        console.log(images)
+        const { item: { name, images, id } } = props
+
+        function deleteFavoriteAlert(title, desc) {
+            Alert.alert(
+                title || "Eliminar Tapa de Favoritos",
+                desc || "",
+                [
+                    {
+                        text: title ? "" : "Cancelar",
+                        style: "cancel"
+                    }
+                    ,
+                    {
+                        text: title ? "" : "Eliminar",
+                        onPress: title ? "" : confirmDeleteFavorite
+                    }
+                ],
+                { cancelable: false }
+            )
+        }
+
+        const confirmDeleteFavorite = () => {
+            setReload(true)
+            db.collection("favorites")
+                .where("idTapa", "==", id)
+                .where("idUser", "==", firebase.auth().currentUser.uid)
+                .get()
+                .then((res) => {
+                    res.forEach((doc) => {
+                        const idFavorite = doc.id
+                        db.collection("favorites")
+                            .doc(idFavorite)
+                            .delete()
+                            .then(() => {
+                                //deleteFavoriteAlert("Eliminado")
+                                setReload(false)
+                            })
+                    })
+                })
+        }
+        console.log(id)
+
         return (
             <View style={styles.tapaFavorite}>
-                <TouchableOpacity onPress={() => console.log("tapa")}>
+                <TouchableOpacity onPress={() => navigation.navigate("tapas", { screen: "plato", params: { id: id, name: name } })}>
                     <Image
                         resizeMode="cover"
                         style={styles.favoriteImage}
@@ -76,9 +118,9 @@ function Favorites(props) {
                         <Text style={styles.favoriteName}>{name}</Text>
                         <Icon
                             type="material-community"
-                            name="heart"
-                            containerStyle={styles.favoriteHeart}
-                            onPress={() => console.log("remove")}
+                            name="delete"
+                            containerStyle={styles.favorite}
+                            onPress={() => deleteFavoriteAlert()}
                             underlayColor="transparent"
                         />
                     </View>
@@ -180,7 +222,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 15
     },
-    favoriteHeart: {
+    favorite: {
         marginTop: -35,
         backgroundColor: "#fff",
         padding: 15,
