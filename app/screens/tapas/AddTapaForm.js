@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, Text, ScrollView, Alert, Dimensions, TimePickerAndroid } from 'react-native'
+import { StyleSheet, View, Text, ScrollView, Alert, Dimensions } from 'react-native'
 import { Icon, Avatar, Image, Input, Button, CheckBox } from 'react-native-elements'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
@@ -194,6 +194,23 @@ function UploadImage(props) {
         }
     }
 
+    const imageSelect = async () => {
+        const resultPermission = await Permissions.askAsync(
+            Permissions.CAMERA_ROLL
+        )
+        if (resultPermission.status !== "granted") {
+            console.log("Hay que aceptar los permisos para poder cargar imagenes")
+        } else {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                aspect: [4, 3]
+            }).then(result => {
+                setTapaFormState({ ...tapaFormState }, tapaFormState.image.push(result.uri))
+            }).catch(err => console.log(err))
+
+        }
+    }
+
     const photoDelete = (image) => {
         Alert.alert("¿Eliminar imagen?", "¿Quieres eliminar esta imagen?", [
             {
@@ -217,6 +234,19 @@ function UploadImage(props) {
 
     }
 
+    const selectCamera = () => {
+        Alert.alert("Selecciona imagen", "", [
+            {
+                text: "Camara",
+                onPress: () => photoCreate()
+            },
+            {
+                text: "Galeria",
+                onPress: () => imageSelect()
+            }
+        ])
+    }
+
 
 
     return (
@@ -227,7 +257,7 @@ function UploadImage(props) {
                     name="camera"
                     color="#7a7a7a"
                     containerStyle={styles.containerIcon}
-                    onPress={() => { photoCreate() }}
+                    onPress={() => { selectCamera() }}
                 />
             }
             {tapaFormState.image.map((image, index) => {
