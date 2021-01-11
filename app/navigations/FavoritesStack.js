@@ -11,7 +11,7 @@ function FavoritesStack() {
             <Stack.Screen
                 name="favorites"
                 component={Favorites}
-                options={{ title: "Restaurantes Favoritos" }}
+                options={{ title: "Platos Favoritos" }}
             />
         </Stack.Navigator>
     )
