@@ -35,7 +35,7 @@ export default function AddComments(props) {
                 idUser: user.uid,
                 avatarUser: user.photoURL,
                 idTapa: idTapa,
-                title: comment.title,
+                title: user.displayName,
                 rating: comment.rating,
                 comment: comment.comment,
                 createAt: new Date()
@@ -87,15 +87,9 @@ export default function AddComments(props) {
             </View>
             <View style={styles.formComments}>
                 <Input
-                    placeholder="Titulo"
+                    placeholder="Comentario"
                     errorMessage={error.msg}
                     containerStyle={styles.inputComments}
-                    onChange={(e) => setComment({ ...comment, title: e.nativeEvent.text })}
-                />
-                <Input
-                    placeholder="Comentario"
-                    multiline={true}
-                    inputContainerStyle={styles.textComment}
                     onChange={(e) => setComment({ ...comment, comment: e.nativeEvent.text })}
                 />
                 <Button
