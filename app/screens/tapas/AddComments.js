@@ -2,17 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { AirbnbRating, Button, Input } from "react-native-elements"
 import Loading from "../../components/Loading"
-
-import { firebaseApp } from "../../utils/firebase"
-import firebase from "firebase/app"
-import "firebase/firestore"
-
-const db = firebase.firestore(firebaseApp)
+import { firebaseFn } from '../../utils/functions/firebase'
 
 export default function AddComments(props) {
     const { navigation, route } = props
     const { idTapa } = route.params
-
     const [comment, setComment] = useState({
         rating: null,
         title: "",
@@ -30,7 +24,7 @@ export default function AddComments(props) {
         } else {
             setError({ errorStatus: false, msg: "" })
             setIsLoading(true)
-            const user = firebase.auth().currentUser
+            const user = firebaseFn.getUser()
             const payload = {
                 idUser: user.uid,
                 avatarUser: user.photoURL,
@@ -40,38 +34,9 @@ export default function AddComments(props) {
                 comment: comment.comment,
                 createAt: new Date()
             }
-
-            db.collection("comments")
-                .add(payload)
-                .then(() => {
-                    updateRating()
-                })
-                .catch(() => {
-                    setIsLoading(false)
-                    setError({ ...error, msg: "No se ha podido enviar el comentario" })
-                })
-
+            firebaseFn.postComment(payload, setIsLoading, setError)
+            firebaseFn.updateRating(idTapa, comment, setIsLoading, navigation)
         }
-    }
-
-    const updateRating = function () {
-        const tapaRef = db.collection("tapas").doc(idTapa)
-        tapaRef.get().then((res) => {
-            const tapaData = res.data()
-            const ratingTotal = tapaData.ratingTotal + comment.rating
-            const quantityVote = tapaData.quantityVote + 1
-            const ratingResult = ratingTotal / quantityVote
-
-            tapaRef.update({
-                rating: ratingResult,
-                ratingTotal,
-                quantityVote
-            }).then(() => {
-                setIsLoading(false)
-                navigation.goBack()
-            })
-
-        })
     }
 
     return (

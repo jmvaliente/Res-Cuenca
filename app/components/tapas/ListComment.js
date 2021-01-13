@@ -1,36 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { Button, Avatar, Rating } from 'react-native-elements'
-
-import { firebaseApp } from '../../utils/firebase'
-import firebase from 'firebase/app'
-import 'firebase/firestore'
-
-const db = firebase.firestore(firebaseApp)
+import { firebaseFn } from '../../utils/functions/firebase'
 
 export default function ListComment(props) {
 
     const { navigation, idTapa, setRating } = props
-
     const [stateUserLogged, setUserLogged] = useState(false)
     const [comments, setComments] = useState([])
 
-    firebase.auth().onAuthStateChanged(user => {
-        user ? setUserLogged(true) : setUserLogged(false)
-    })
+    firebaseFn.userLogged().then(result => { setUserLogged(result) })
 
     useEffect(() => {
-        db.collection("comments")
-            .where("idTapa", "==", idTapa)
-            .get()
-            .then((res) => {
-                const initialComments = []
-                res.forEach((el) => {
-                    initialComments.push(el.data())
-                })
-                setComments(initialComments)
-            })
-    }, [])
+        firebaseFn.getComments(idTapa, setComments)
+    }, [comments])
 
     return (
         <View>
