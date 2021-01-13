@@ -3,11 +3,9 @@ import { StyleSheet, View, Text, FlatList, ActivityIndicator, TouchableOpacity, 
 import { Image, Icon, Button } from 'react-native-elements'
 import Loading from '../components/Loading'
 import { useFocusEffect } from '@react-navigation/native'
-import { firebaseApp } from '../utils/firebase'
-import firebase from 'firebase'
-import 'firebase/firestore'
+import { firebaseFn } from '../utils/functions/firebase'
+import { alerts } from '../utils/functions/alerts'
 
-const db = firebase.firestore(firebaseApp)
 
 function Favorites(props) {
     const { navigation } = props
@@ -16,90 +14,19 @@ function Favorites(props) {
     const [isLoading, setIsLoading] = useState(false)
     const [reload, setReload] = useState(false)
 
-    firebase.auth().onAuthStateChanged((user) => {
-        user ? setUserLogged(true) : setUserLogged(false)
-    })
+
+    firebaseFn.userLogged().then(result => setUserLogged(result))
 
     useFocusEffect(
         useCallback(() => {
-            if (userLogged) {
-                setIsLoading(true)
-                const userId = firebase.auth().currentUser.uid
-                db.collection("favorites")
-                    .where("idUser", "==", userId)
-                    .get()
-                    .then((res) => {
-                        const idTapas = []
-                        res.forEach((doc) => {
-                            idTapas.push(doc.data().idTapa)
-                        })
-                        getTapasFavorites(idTapas).then((resp) => {
-                            const tapas = []
-                            resp.forEach((doc) => {
-                                const tapa = doc.data()
-                                tapa.id = doc.id
-                                tapas.push(tapa)
-                            })
-                            setTapas(tapas)
-                            setIsLoading(false)
-                        })
-                    })
-            }
+            firebaseFn.listFavoritesUser(setIsLoading, setTapas)
         }, [userLogged, reload])
     )
 
 
-    function getTapasFavorites(idTapas) {
-        const tapasFavorites = []
-        idTapas.forEach((id) => {
-            const result = db.collection("tapas").doc(id).get()
-            tapasFavorites.push(result)
-        })
-        return Promise.all(tapasFavorites)
-    }
-
     function tapaFavorite(props) {
         const { item: { name, images, id } } = props
 
-        function deleteFavoriteAlert(title, desc) {
-            Alert.alert(
-                title || "Eliminar Tapa de Favoritos",
-                desc || "",
-                [
-                    {
-                        text: title ? "" : "Cancelar",
-                        style: "cancel"
-                    }
-                    ,
-                    {
-                        text: title ? "" : "Eliminar",
-                        onPress: title ? "" : confirmDeleteFavorite
-                    }
-                ],
-                { cancelable: false }
-            )
-        }
-
-        const confirmDeleteFavorite = () => {
-            setReload(true)
-            db.collection("favorites")
-                .where("idTapa", "==", id)
-                .where("idUser", "==", firebase.auth().currentUser.uid)
-                .get()
-                .then((res) => {
-                    res.forEach((doc) => {
-                        const idFavorite = doc.id
-                        db.collection("favorites")
-                            .doc(idFavorite)
-                            .delete()
-                            .then(() => {
-                                //deleteFavoriteAlert("Eliminado")
-                                setReload(false)
-                            })
-                    })
-                })
-        }
-        console.log(id)
 
         return (
             <View style={styles.tapaFavorite}>
@@ -120,7 +47,7 @@ function Favorites(props) {
                             type="material-community"
                             name="delete"
                             containerStyle={styles.favorite}
-                            onPress={() => deleteFavoriteAlert()}
+                            onPress={() => alerts.alertDeleteFavorites(id, setReload)}
                             underlayColor="transparent"
                         />
                     </View>
