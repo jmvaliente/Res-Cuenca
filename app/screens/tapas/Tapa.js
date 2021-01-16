@@ -5,6 +5,7 @@ import Loading from '../../components/Loading'
 import Carousel from '../../components/Carousel'
 import Map from '../../components/Map'
 import ListComment from '../../components/tapas/ListComment'
+import { styles } from '../../../assets/css/styles'
 
 import { useFocusEffect } from "@react-navigation/native"
 
@@ -183,51 +184,3 @@ export default function Tapa(props) {
         </ScrollView>
     )
 }
-
-const styles = StyleSheet.create({
-    viewBody: {
-        flex: 1,
-        backgroundColor: "#fff"
-    },
-    viewTapaTitle: {
-        padding: 15
-    },
-    viewTapa: {
-        flexDirection: "row"
-    },
-    nameTapa: {
-        fontSize: 20,
-        fontWeight: "bold"
-
-    },
-    styleRating: {
-        position: "absolute",
-        right: 0
-    },
-    viewTapaLocation: {
-        marginTop: 10,
-        paddingLeft: 15
-    },
-    tapaInfoText: {
-        fontSize: 20,
-        fontWeight: "bold",
-        marginBottom: 10
-    },
-    ingredientText: {
-        fontSize: 15,
-        marginRight: 15
-    },
-    ingredientContainer: {
-        flexDirection: "row"
-    },
-    viewFavourite: {
-        position: "absolute",
-        top: 0,
-        right: 0,
-        zIndex: 2,
-        backgroundColor: "#fff",
-        borderBottomLeftRadius: 100,
-        padding: 5,
-        paddingLeft: 15
-    }
-})

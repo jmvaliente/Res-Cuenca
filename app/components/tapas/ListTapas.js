@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity, ActivityIndicatorComponent } from 'react-native'
 import { Image } from 'react-native-elements'
 import { useNavigation } from '@react-navigation/native'
+import { styles } from '../../../assets/css/styles'
 
 export default function ListTapas(props) {
 
@@ -102,42 +103,3 @@ function FooterList(props) {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    loaderTapas: {
-        marginTop: 10,
-        marginBottom: 10,
-        alignItems: "center"
-    },
-    viewTapa: {
-        flexDirection: "row",
-        margin: 10
-    },
-    viewTapaImage: {
-        marginRight: 15
-    },
-    viewImage: {
-        width: 100,
-        height: 100
-    },
-    tapaName: {
-        fontWeight: "bold"
-    },
-    tapaAddress: {
-        paddingTop: 2,
-        color: "grey"
-    },
-    notFoundTapas: {
-        marginTop: 10,
-        marginBottom: 20,
-        alignItems: "center"
-    },
-    ingredientsContainer: {
-        flexDirection: "column"
-    },
-    ingredientsText: {
-        marginRight: 2,
-        fontWeight: "bold"
-    }
-
-})
