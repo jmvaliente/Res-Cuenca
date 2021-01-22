@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useState } from 'react'
+import { View } from 'react-native'
 import { Input, Icon, Button } from 'react-native-elements'
 import { useNavigation } from "@react-navigation/native"
 import Loading from '../Loading'
+import { styles } from '../../../assets/css/styles'
 
 import { validateLogin } from '../../utils/validations'
 import * as firebase from 'firebase'
 
 
-function LoginForm() {
+export default function LoginForm() {
 
     const navigation = useNavigation()
 
@@ -47,11 +48,11 @@ function LoginForm() {
 
 
     return (
-        <View style={styles.formContainer}>
+        <View style={styles.formContainerLoginForm}>
             <Loading isVisible={stateLogin.loading} text={"Entrando a su cuenta"} />
             <Input
                 placeholder={"Correo Electrónico"}
-                containerStyle={styles.inputForm}
+                containerStyle={styles.inputFormLoginForm}
                 onChange={e => onChange(e, "email")}
                 errorMessage={stateError.error === "email" || stateError.firebase ? stateError.msg : null}
                 onEndEditing={() => setStateError(validateLogin(stateLogin))}
@@ -59,13 +60,13 @@ function LoginForm() {
                     <Icon
                         type="material-community"
                         name="at"
-                        iconStyle={styles.iconRight}
+                        iconStyle={styles.iconRightLoginForm}
                     />
                 }
             />
             <Input
                 placeholder={"Contraseña"}
-                containerStyle={styles.inputForm}
+                containerStyle={styles.inputFormLoginForm}
                 onChange={e => onChange(e, "password")}
                 password={true}
                 secureTextEntry={!stateLogin.passwordVisible}
@@ -76,42 +77,17 @@ function LoginForm() {
                         type="material-community"
                         name={stateLogin.passwordVisible ? "eye-off-outline" : "eye-outline"}
                         onPress={() => setStateLogin({ ...stateLogin, passwordVisible: !stateLogin.passwordVisible })}
-                        iconStyle={styles.iconRight}
+                        iconStyle={styles.iconRightLoginForm}
                     />
                 }
             />
             <Button
                 title="Iniciar sesión"
-                containerStyle={styles.btnContainerLogin}
-                buttonStyle={styles.btnLogin}
+                containerStyle={styles.btnContainerLoginLoginForm}
+                buttonStyle={styles.btnLoginLoginForm}
                 onPress={() => onSubmit()}
 
             />
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    formContainer: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 30,
-    },
-    inputForm: {
-        width: "100%",
-        marginTop: 20
-    },
-    btnContainerLogin: {
-        marginTop: 20,
-        width: "95%"
-    },
-    btnLogin: {
-        backgroundColor: "#00a680"
-    },
-    iconRight: {
-
-    }
-})
-
-export default LoginForm

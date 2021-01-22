@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { View } from "react-native";
 import { Button } from 'react-native-elements'
 import InfoUser from '../../components/account/InfoUser'
 import * as firebase from 'firebase'
 import AccountOption from '../../components/account/AccountOptions'
+import { styles } from '../../../assets/css/styles'
 
 function UserLogged() {
 
@@ -23,38 +24,17 @@ function UserLogged() {
     }, [reload])
 
     return (
-        <View style={styles.viewUserInfo}>
+        <View style={styles.viewUserInfoUserLogged}>
             {userState && <InfoUser user={userState} />}
             <AccountOption user={userState} setReload={setReload} />
             <Button
                 title="Cerrar Sesión"
-                buttonStyle={styles.btnLogout}
+                buttonStyle={styles.btnLogoutUserLogged}
                 onPress={() => logout()}
-                titleStyle={styles.btnLogoutText}
+                titleStyle={styles.btnLogoutTextUserLogged}
             />
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    viewUserInfo: {
-        minHeight: "100%",
-        backgroundColor: "#f2f2f2"
-    },
-    btnLogout: {
-        //marginTop: 30,
-        borderRadius: 0,
-        backgroundColor: "#fff",
-        borderTopWidth: 1,
-        borderColor: "#e3e3e3",
-        borderBottomWidth: 1,
-        borderBottomColor: "#e3e3e3",
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-    btnLogoutText: {
-        color: "#00a680"
-    }
-})
 
 export default UserLogged

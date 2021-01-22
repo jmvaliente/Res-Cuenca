@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { View, Text } from 'react-native'
 import { Avatar, Accessory } from 'react-native-elements'
+import { styles } from '../../../assets/css/styles'
 
 import * as firebase from "firebase"
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
 
-function InfoUser(props) {
+export default function InfoUser(props) {
 
     const { email, displayName, photoURL, uid } = props.user
 
@@ -57,7 +58,7 @@ function InfoUser(props) {
     }
 
     return (
-        <View style={styles.viewUserInfo}>
+        <View style={styles.viewUserInfoInfoUser}>
             <Avatar
                 rounded
                 title={displayName ? displayName.split("")[0] : ""}
@@ -66,35 +67,14 @@ function InfoUser(props) {
                 size="large"
                 showEditButton
                 source={photoURL ? { uri: photoURL } : {}}
-                containerStyle={styles.userInfoAvatar}
+                containerStyle={styles.userInfoAvatarInfoUser}
             >
                 {changeState && <Accessory size={25} onPress={() => changeAvatar()} />}
             </Avatar>
             <View>
-                <Text style={styles.displayName}>{displayName}</Text>
+                <Text style={styles.displayNameInfoUser}>{displayName}</Text>
                 <Text>{email}</Text>
             </View>
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    viewUserInfo: {
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "row",
-        backgroundColor: "#f2f2f2",
-        paddingTop: 30,
-        paddingBottom: 30
-    },
-    userInfoAvatar: {
-        marginRight: 20,
-        backgroundColor: "grey"
-    },
-    displayName: {
-        fontWeight: "bold",
-        paddingBottom: 5
-    }
-})
-
-export default InfoUser

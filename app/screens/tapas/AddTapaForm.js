@@ -8,6 +8,7 @@ import Modal from "../../components/Modal"
 import MapView from 'react-native-maps'
 import Loading from '../../components/Loading'
 import { useNavigation } from "@react-navigation/native"
+import { styles } from '../../../assets/css/styles'
 
 import { firebaseApp } from "../../utils/firebase"
 import firebase from "firebase/app"
@@ -92,13 +93,13 @@ function AddTapaForm() {
     }
 
     return (
-        <ScrollView style={styles.ScrollView}>
+        <ScrollView style={styles.ScrollViewAddTapaForm}>
             {tapaFormState.image[0] && <ImagePrincipal image={tapaFormState.image[0]} />}
             <FormAdd tapaFormState={tapaFormState} setTapaFormState={setTapaFormState} setMapVisible={setMapVisible} />
             <UploadImage tapaFormState={tapaFormState} setTapaFormState={setTapaFormState} />
             <Button
                 title="Crear Tapa"
-                buttonStyle={styles.btnAddTapa}
+                buttonStyle={styles.btnAddTapaAddTapaForm}
                 onPress={() => onSubmit()}
             />
             <Maps mapVisible={mapVisible} setMapVisible={setMapVisible} tapaFormState={tapaFormState} setTapaFormState={setTapaFormState} />
@@ -119,16 +120,16 @@ function FormAdd(props) {
     }
 
     return (
-        <View style={styles.formAdd}>
+        <View style={styles.formAddAddTapaForm}>
             <Input
                 placeholder="Nombre Tapa / Plato"
                 onChange={e => onChange(e, "nameTapa")}
-                containerStyle={styles.input}
+                containerStyle={styles.inputAddTapaForm}
             />
             <Input
                 placeholder="Dirección"
                 onChange={e => onChange(e, "address")}
-                containerStyle={styles.input}
+                containerStyle={styles.inputAddTapaForm}
                 rightIcon={{
                     type: "material-community",
                     name: "google-maps",
@@ -250,13 +251,13 @@ function UploadImage(props) {
 
 
     return (
-        <View style={styles.viewImage}>
+        <View style={styles.viewImageAddTapaForm}>
             {tapaFormState.image.length <= 3 &&
                 <Icon
                     type="material-community"
                     name="camera"
                     color="#7a7a7a"
-                    containerStyle={styles.containerIcon}
+                    containerStyle={styles.containerIconAddTapaForm}
                     onPress={() => { selectCamera() }}
                 />
             }
@@ -264,7 +265,7 @@ function UploadImage(props) {
                 return (
                     <Avatar
                         key={index}
-                        style={styles.miniImage}
+                        style={styles.miniImageAddTapaForm}
                         source={{ uri: image }}
                         onLongPress={() => photoDelete(image)}
                     />
@@ -278,7 +279,7 @@ function ImagePrincipal(props) {
     const { image } = props
 
     return (
-        <View style={styles.viewImagePrincipal}>
+        <View style={styles.viewImagePrincipalAddTapaForm}>
             <Image
                 source={{ uri: image }}
                 style={{ width: widthScreen, height: 200 }}
@@ -310,11 +311,8 @@ function Maps(props) {
     }, [])
 
     const saveLocation = () => {
-        console.log(location)
         setTapaFormState({ ...tapaFormState, location: location })
-        console.log(tapaFormState)
         setMapVisible(false)
-
     }
 
     return (
@@ -322,11 +320,10 @@ function Maps(props) {
             <View>
                 {location && (
                     <MapView
-                        style={styles.mapStyle}
+                        style={styles.mapStyleAddTapaForm}
                         initialRegion={location}
                         showsUserLocation={true}
                         onRegionChange={(region) => { setLocation(region) }}
-                        onPoiClick={(e) => console.log(e)}
                     >
                         <MapView.Marker
                             coordinate={{
@@ -338,17 +335,17 @@ function Maps(props) {
                         />
                     </MapView>
                 )}
-                <View style={styles.viewMapBtn}>
+                <View style={styles.viewMapBtnAddTapaForm}>
                     <Button
                         title="Guardar"
-                        containerStyle={styles.viewMapBtnSaveContainer}
-                        buttonStyle={styles.viewMapBtnSave}
+                        containerStyle={styles.viewMapBtnSaveContainerAddTapaForm}
+                        buttonStyle={styles.viewMapBtnSaveAddTapaForm}
                         onPress={() => { saveLocation(location) }}
                     />
                     <Button
                         title="Cancelar"
-                        containerStyle={styles.viewMapBtnCancelContainer}
-                        buttonStyle={styles.viewMapBtnCancel}
+                        containerStyle={styles.viewMapBtnCancelContainerAddTapaForm}
+                        buttonStyle={styles.viewMapBtnCancelAddTapaForm}
                         onPress={() => { setMapVisible(false) }}
                     />
                 </View>
@@ -356,79 +353,4 @@ function Maps(props) {
         </Modal>
     )
 }
-
-const styles = StyleSheet.create({
-    ScrollView: {
-        height: "100%"
-    },
-    formAdd: {
-        marginLeft: 10,
-        marginRight: 10
-    },
-    input: {
-        marginBottom: 10
-
-    },
-    textArea: {
-        height: 100,
-        padding: 0,
-        margin: 0,
-        width: "100%"
-    },
-    btnAddTapa: {
-        backgroundColor: "#00a680",
-        margin: 20
-    },
-    viewImage: {
-        flexDirection: "row",
-        marginLeft: 20,
-        marginRight: 20,
-        marginTop: 20
-
-    },
-    containerIcon: {
-        alignItems: "center",
-        justifyContent: "center",
-        marginRight: 10,
-        height: 70,
-        width: 70,
-        backgroundColor: "#e3e3e3"
-    },
-    miniImage: {
-        width: 70,
-        height: 70,
-        marginRight: 10
-    },
-    viewImagePrincipal: {
-        alignItems: "center",
-        height: 200,
-        marginBottom: 20,
-        margin: 20
-    },
-    mapStyle: {
-        width: "100%",
-        height: 550
-    },
-    viewMapBtn: {
-        flexDirection: "row",
-        justifyContent: "center",
-        marginTop: 10
-    },
-    viewMapBtnContainer: {
-        paddingLeft: 5
-    },
-    viewMapBtnSave: {
-        backgroundColor: "#00a680"
-    },
-    viewMapBtnCancel: {
-        backgroundColor: "#a60d0d"
-    },
-    viewMapBtnCancelContainer: {
-        paddingLeft: 5
-    },
-    viewMapBtnSaveContainer: {
-        paddingRight: 5
-    }
-})
-
 export default AddTapaForm

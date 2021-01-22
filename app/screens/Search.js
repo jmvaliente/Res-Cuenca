@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import { SearchBar, ListItem, Icon } from "react-native-elements"
 import { FireSQL } from "firesql"
 import firebase from "firebase/app"
+import { styles } from '../../assets/css/styles'
 
 const fireSQL = new FireSQL(firebase.firestore(), { includeId: "id" })
 
@@ -48,7 +49,6 @@ function Search(props) {
             )
         }
     }
-
     function Tapas(props) {
         const { tapas: { item }, navigation } = props
         const { name, id, images } = item
@@ -63,7 +63,6 @@ function Search(props) {
             />
         )
     }
-
     return (
         <View>
             <SearchBar
@@ -76,24 +75,4 @@ function Search(props) {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    searchBar: {
-        marginBottom: 20,
-        width: "100%"
-    },
-    searchWait: {
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 20
-    },
-    textSearch: {
-        fontSize: 15,
-        fontStyle: "italic",
-        marginTop: 10
-    },
-
-})
-
 export default Search

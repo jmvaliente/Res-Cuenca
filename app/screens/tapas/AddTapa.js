@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { View } from 'react-native'
 import AddTapaForm from '../tapas/AddTapaForm'
 import Loading from '../../components/Loading'
 
 function AddTapa(props) {
 
-    const { navigation } = props
     const [addTapaState, setAddTapaState] = useState({
         loading: false
     })
@@ -17,7 +16,5 @@ function AddTapa(props) {
         </View>
     )
 }
-
-const style = StyleSheet.create({})
 
 export default AddTapa
