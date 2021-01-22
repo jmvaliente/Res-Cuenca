@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { View, Text } from 'react-native'
 import { Icon, ListItem } from 'react-native-elements'
 import Modal from '../../components/Modal'
 import EditFormUser from '../account/EditFormUser'
+import { styles } from '../../../assets/css/styles'
 
-function AccountOption(props) {
+export default function AccountOption(props) {
 
     const { user, setReload } = props
 
@@ -41,7 +42,7 @@ function AccountOption(props) {
         <View>
             {menuOption.map((option, index) => (
 
-                < ListItem key={index} bottomDivider containerStyle={styles.menuItemStyles} onPress={() => editAction(option.key)} >
+                < ListItem key={index} bottomDivider containerStyle={styles.menuItemStylesAccountOptions} onPress={() => editAction(option.key)} >
                     <Icon type={option.iconType} name={option.iconNameLeft} />
                     <ListItem.Title>{option.tittle}</ListItem.Title>
                 </ListItem>
@@ -81,13 +82,3 @@ function generateOptions() {
         }
     ]
 }
-
-const styles = StyleSheet.create({
-    menuItemStyles: {
-        borderBottomWidth: 2,
-        borderBottomColor: "#e3e3e3"
-    }
-
-})
-
-export default AccountOption

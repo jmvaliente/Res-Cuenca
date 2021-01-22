@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, View } from 'react-native'
 import { AirbnbRating, Button, Input } from "react-native-elements"
 import Loading from "../../components/Loading"
+import { styles } from '../../../assets/css/styles'
 import { firebaseFn } from '../../utils/functions/firebase'
 
 export default function AddComments(props) {
@@ -68,38 +69,3 @@ export default function AddComments(props) {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    viewBodyComments: {
-        flex: 1
-    },
-    viewRatingComments: {
-        height: 110,
-        backgroundColor: "#f2f2f2"
-    },
-    formComments: {
-        flex: 1,
-        alignItems: "center",
-        margin: 10,
-        marginTop: 40
-    },
-    inputComments: {
-        marginBottom: 10
-    },
-    textComment: {
-        height: 150,
-        width: "100%",
-        padding: 0,
-        margin: 0
-    },
-    btnContainerComments: {
-        flex: 1,
-        justifyContent: "flex-end",
-        marginTop: 20,
-        marginBottom: 10,
-        width: "95%"
-    },
-    btnStylesComment: {
-        backgroundColor: "#00a680"
-    }
-})

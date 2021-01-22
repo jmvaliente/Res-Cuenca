@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { Button, Avatar, Rating } from 'react-native-elements'
 import { firebaseFn } from '../../utils/functions/firebase'
+import { styles } from '../../../assets/css/styles'
 
 export default function ListComment(props) {
 
@@ -71,48 +72,3 @@ function Comments(props) {
         </>
     )
 }
-
-const styles = StyleSheet.create({
-    btnAddComment: {
-        backgroundColor: "transparent"
-    },
-    btnTitleAddComment: {
-        color: "#00a680"
-    },
-    viewCommentStyle: {
-        flexDirection: "row",
-        padding: 10,
-        paddingBottom: 20,
-        borderBottomColor: "#e3e3e3",
-        borderBottomWidth: 1
-    },
-    viewCommentAvatarStyle: {
-        marginRight: 15
-    },
-    imageAvatarComment: {
-        width: 50,
-        height: 50
-    },
-    viewInfoComments: {
-        flex: 1,
-        alignItems: "flex-start"
-    },
-    textComment: {
-        fontWeight: "normal",
-        paddingTop: 2,
-        color: "gray",
-        marginBottom: 5
-    },
-    textTitleComment: {
-        fontWeight: "bold"
-    },
-    reviewDateComments: {
-        marginTop: 5,
-        color: "grey",
-        fontSize: 12,
-        position: "absolute",
-        right: 0,
-        bottom: 0
-    }
-
-})

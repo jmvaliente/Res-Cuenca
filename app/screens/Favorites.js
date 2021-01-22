@@ -1,13 +1,14 @@
 import React, { useState, useCallback } from "react";
-import { StyleSheet, View, Text, FlatList, ActivityIndicator, TouchableOpacity, Alert } from "react-native";
+import { View, Text, FlatList, ActivityIndicator, TouchableOpacity, Alert } from "react-native";
 import { Image, Icon, Button } from 'react-native-elements'
 import Loading from '../components/Loading'
 import { useFocusEffect } from '@react-navigation/native'
 import { firebaseFn } from '../utils/functions/firebase'
 import { alerts } from '../utils/functions/alerts'
+import { styles } from '../../assets/css/styles'
 
 
-function Favorites(props) {
+export default function Favorites(props) {
     const { navigation } = props
     const [tapas, setTapas] = useState(null)
     const [userLogged, setUserLogged] = useState(false)
@@ -108,53 +109,3 @@ function Favorites(props) {
     }
 
 }
-
-const styles = StyleSheet.create({
-    styleNoFavarite: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    textNoFavorite: {
-        fontSize: 15,
-        fontStyle: "italic"
-    },
-    btnFavoriteRegister: {
-        marginTop: 20,
-        width: "80%"
-    },
-    btnStyleFavoriteRegister: {
-        backgroundColor: "#00a680"
-    },
-    tapaFavorite: {
-        margin: 10,
-    },
-    favoriteImage: {
-        width: "100%",
-        height: 180
-    },
-    infoFavorites: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "space-between",
-        flexDirection: "row",
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 10,
-        paddingBottom: 10,
-        marginTop: -30,
-        backgroundColor: "#fff"
-    },
-    favoriteName: {
-        fontWeight: "bold",
-        fontSize: 15
-    },
-    favorite: {
-        marginTop: -35,
-        backgroundColor: "#fff",
-        padding: 15,
-        borderRadius: 100
-    }
-})
-
-export default Favorites

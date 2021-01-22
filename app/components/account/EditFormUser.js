@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import React, { useState } from 'react'
+import { View } from 'react-native'
 import { Input, Button } from 'react-native-elements'
 import * as firebase from 'firebase'
 import reauthenticate from '../../utils/reauthenticate'
+import { styles } from '../../../assets/css/styles'
 
-function EditFormUser(props) {
+export default function EditFormUser(props) {
 
     const { content, user, setShowModal, setReload } = props.props
 
@@ -72,10 +73,10 @@ function EditFormUser(props) {
     switch (content.key) {
         case "displayName":
             return (
-                <View style={style.view}>
+                <View style={styles.viewEditUser}>
                     <Input
                         placeholder={content.name}
-                        containerStyle={style.input}
+                        containerStyle={styles.inputEditUser}
                         onChange={(e) => onChange(e, "displayName")}
                         errorMessage={error.msg}
                         defaultValue={user.displayName || ""}
@@ -87,19 +88,18 @@ function EditFormUser(props) {
                     />
                     <Button
                         title="Editar"
-                        containerStyle={style.btnContainer}
-                        buttonStyle={style.btn}
+                        containerStyle={styles.btnContainerEditUser}
+                        buttonStyle={styles.btnEditUser}
                         onPress={() => onSubmit("displayName")}
                     />
                 </View>
             )
-            break;
         case "email":
             return (
-                <View style={style.view}>
+                <View style={styles.viewEditUser}>
                     <Input
                         placeholder={content.name}
-                        containerStyle={style.input}
+                        containerStyle={styles.inputEditUser}
                         onChange={(e) => onChange(e, "email")}
                         defaultValue={user.email || ""}
                         rightIcon={{
@@ -110,20 +110,18 @@ function EditFormUser(props) {
                     />
                     <Button
                         title="Editar"
-                        containerStyle={style.btnContainer}
-                        buttonStyle={style.btn}
+                        containerStyle={styles.btnContainerEditUser}
+                        buttonStyle={styles.btnEditUser}
                         onPress={() => onSubmit("email")}
                     />
                 </View>
             )
-            break;
-
         case "password":
             return (
-                <View style={style.view}>
+                <View style={styles.viewEditUser}>
                     <Input
                         placeholder={"Contraseña Actual"}
-                        containerStyle={style.input}
+                        containerStyle={styles.inputEditUser}
                         onChange={(e) => onChange(e, "actualPassword")}
                         errorMessage={error.msg}
                         password={true}
@@ -137,7 +135,7 @@ function EditFormUser(props) {
                     />
                     <Input
                         placeholder={"Nueva Contraseña"}
-                        containerStyle={style.input}
+                        containerStyle={styles.inputEditUser}
                         onChange={(e) => onChange(e, "password")}
                         errorMessage={error.msg}
                         password={true}
@@ -151,36 +149,13 @@ function EditFormUser(props) {
                     />
                     <Button
                         title="Editar"
-                        containerStyle={style.btnContainer}
-                        buttonStyle={style.btn}
+                        containerStyle={styles.btnContainerEditUser}
+                        buttonStyle={styles.btnEditUser}
                         onPress={() => onSubmit("password")}
                     />
                 </View>
             )
-            break;
-
         default:
             break;
     }
 }
-
-const style = StyleSheet.create({
-    view: {
-        alignItems: "center",
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-    input: {
-        marginBottom: 10
-    },
-    btnContainer: {
-        marginTop: 20,
-        width: "95%"
-    },
-    btn: {
-        backgroundColor: "#00a680"
-    }
-
-})
-
-export default EditFormUser

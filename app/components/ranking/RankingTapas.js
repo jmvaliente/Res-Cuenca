@@ -1,6 +1,7 @@
 import React from 'react'
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native'
+import { Text, View, FlatList, TouchableOpacity } from 'react-native'
 import { Card, Image, Icon, Rating } from 'react-native-elements'
+import { styles } from '../../../assets/css/styles'
 
 export default function RankingTapas(props) {
     const { tapas, navigation } = props
@@ -48,34 +49,3 @@ function Tapa(props) {
         </TouchableOpacity>
     )
 }
-
-const styles = StyleSheet.create({
-    containerCardRanking: {
-        marginBottom: 30,
-        borderWidth: 0
-    },
-    containerIconRanking: {
-        position: "absolute",
-        top: -30,
-        left: -30,
-        zIndex: 1
-    },
-    imageRanking: {
-        width: "100%",
-        height: 200
-    },
-    descriptionRanking: {
-        flexDirection: "row",
-        marginTop: 10,
-        justifyContent: "space-between"
-    },
-    tittleRanking: {
-        fontSize: 20,
-        fontWeight: "bold"
-    },
-    descriptionRankingSecond: {
-        flexDirection: "row",
-        marginTop: 10,
-        justifyContent: "flex-end"
-    }
-})

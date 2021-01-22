@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet, View, Text, ActivityIndicatActivityIndicator, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
 import { Overlay } from "react-native-elements";
+import { styles } from '../../assets/css/styles'
 
-function Loading(props) {
+export default function Loading(props) {
 
     const { isVisible, text } = props;
 
@@ -11,38 +12,13 @@ function Loading(props) {
             isVisible={isVisible}
             windowBackgroundColor="rgba(0,0,0,0.5)"
             overlayBackgroundColor="transparent"
-            overlayStyle={styles.overlay}
+            overlayStyle={styles.overlayLoading}
         >
-            <View style={styles.view}>
+            <View style={styles.viewLoading}>
                 <ActivityIndicator size="large" color="#00a680" />
-                {text && <Text style={styles.text}>{text}</Text>}
+                {text && <Text style={styles.textLoading}>{text}</Text>}
             </View>
         </Overlay>
     )
 }
-
-const styles = StyleSheet.create({
-    overlay: {
-        height: 100,
-        width: 200,
-        backgroundColor: "#fff",
-        borderColor: "#00a680",
-        borderWidth: 2,
-        borderRadius: 10
-    },
-    view: {
-        display: "flex",
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    text: {
-        color: "#00a680",
-        textTransform: "uppercase",
-        marginTop: 10
-    }
-});
-
-
-export default Loading
 

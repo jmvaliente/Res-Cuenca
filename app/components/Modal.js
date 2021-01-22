@@ -1,8 +1,8 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
 import { Overlay } from 'react-native-elements'
+import { styles } from '../../assets/css/styles'
 
-function Modal(props) {
+export default function Modal(props) {
 
     const { isVisible, setIsVisible, children } = props
 
@@ -12,21 +12,10 @@ function Modal(props) {
             isVisible={isVisible}
             windowBackgroundColor="rgba(0,0,0,0.5)"
             overlayBackgroundColor="transparent"
-            overlayStyle={styles.overlay}
+            overlayStyle={styles.overlayModal}
             onBackdropPress={() => closeModal()}
         >
             {children}
         </Overlay>
     )
 }
-
-const styles = StyleSheet.create({
-    overlay: {
-        height: "auto",
-        width: "90%",
-        backgroundColor: "#fff"
-    }
-
-})
-
-export default Modal

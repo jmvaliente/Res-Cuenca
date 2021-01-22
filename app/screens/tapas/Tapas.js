@@ -6,10 +6,11 @@ import { firebaseApp } from "../../utils/firebase"
 import firebase from "firebase/app"
 import "firebase/firestore"
 import ListTapas from "../../components/tapas/ListTapas"
+import { styles } from '../../../assets/css/styles'
 
 const db = firebase.firestore(firebaseApp)
 
-function Tapas(props) {
+export default function Tapas(props) {
     const { navigation } = props
     const [user, setUser] = useState()
     const [tapas, setTapas] = useState([])
@@ -65,7 +66,7 @@ function Tapas(props) {
     }
 
     return (
-        <View style={styles.viewBody}>
+        <View style={styles.viewBodyTapas}>
             <ListTapas tapas={tapas} handleLoadMore={handleLoadMore} isLoading={isLoading} />
 
             {user && addItem(navigation)}
@@ -80,27 +81,7 @@ function addItem(navigation) {
         name="plus"
         color="#00a680"
         reverse
-        containerStyle={styles.btnContainer}
+        containerStyle={styles.btnContainerTapas}
         onPress={() => navigation.navigate("añadir_plato")}
     />
 }
-
-const styles = StyleSheet.create({
-    viewBody: {
-        flex: 1,
-        backgroundColor: "#fff"
-    },
-    btnContainer: {
-        position: "absolute",
-        bottom: 10,
-        right: 10,
-        shadowColor: "grey",
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.5
-    }
-})
-
-export default Tapas
-
-
-
